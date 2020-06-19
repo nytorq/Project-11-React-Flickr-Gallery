@@ -1,25 +1,55 @@
-import React from 'react';
+import React, {Component} from 'react';
 import SearchForm from './Components/SearchForm';
 import MainNav from './Components/MainNav';
 import Results from './Components/Results';
 import NoResults from './Components/NoResults';
 import './App.css';
+import axios from 'axios';
+import apiKey from './config.js';
 
-function App() {
-  return (
-    <div class="container">
+export default class App extends Component {
 
-      <SearchForm />
+  constructor() {
+    super();
+    this.state = {
+      photos: [],
+      loading: true
+    };
+  }
 
-      <MainNav />
+  componentDidMount() {
+    console.log('App has been mounted.');
+    this.getRecent();
+  }
 
-      <Results />
+  getRecent = () => {
+    axios.get(`https://www.flickr.com/services/rest/?method=flickr.photos.getRecent&format=json&nojsoncallback=1&api_key=${apiKey}&per_page=25`)
+      .then(response => {
+        this.setState({
+          photos: response.data.photos,
+          loading: false
+        });
+        // console.dir(response.data);
+      })
+      .catch(error => {
+        console.log('Error fetching and parsing data', error);
+      });
+  }
 
-      {// <NoResults />
-      }
+  render() {
+    return (
+      <div class="container">
 
-    </div>
-  );
+        <SearchForm />
+
+        <MainNav />
+
+        <Results />
+
+        {// <NoResults />
+        }
+
+      </div>
+    );
+  }
 }
-
-export default App;
