@@ -1,24 +1,24 @@
 import React from 'react';
 import Photo from './Photo';
+import NoResults from './NoResults';
 
 const Results = props => {
+  const results = props.data.photo;
+  console.dir(results);
+  let photos;
+  if (results.length > 0) {
+    photos = results.map(photo => <Photo url={`https://farm${photo.farm}.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}_q.png`} key={photo.id}/>);
+  } else {
+    photos = <NoResults />
+  }
 
   return (
-    <div class="photo-container">
-      <h2>Results</h2>
       <ul>
-        <Photo />
-        <li>
-          <img src="https://farm5.staticflickr.com/4342/36338751244_316b6ee54b.jpg" alt="" />
-        </li>
-        <li>
-          <img src="https://farm5.staticflickr.com/4343/37175099045_0d3a249629.jpg" alt="" />
-        </li>
-        <li>
-          <img src="https://farm5.staticflickr.com/4425/36337012384_ba3365621e.jpg" alt="" />
-        </li>
+        {
+          photos
+        }
       </ul>
-    </div>
+
   );
 }
 
