@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import SearchForm from './Components/SearchForm';
 import MainNav from './Components/MainNav';
 import Results from './Components/Results';
+import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import './App.css';
 import axios from 'axios';
 import apiKey from './config.js';
@@ -51,24 +52,24 @@ export default class App extends Component {
 
   render() {
     return (
-      <div class="container">
+      <BrowserRouter>
+        <div className="container">
 
-        <SearchForm onSearch={this.performSearch}/>
+          <SearchForm onSearch={this.performSearch}/>
 
-        <MainNav />
+          <MainNav />
 
-        <div class="photo-container">
-        <h2>Results</h2>
-          {
-            (this.state.loading)
-            ? <p>Loading...</p>
-            : <Results data={this.state.photos}/>
-          }
+          <div className="photo-container">
+            <h2>Results</h2>
+            <Switch>
+              <Route exact path="/" render={() => (this.state.loading) ? <p>Loading...</p> : <Results data={this.state.photos} loading={this.state.loading}/>}/>
+              <Route path="/cats" render={() => (this.state.loading) ? <p>Loading...</p> : <Results data={this.state.photos} handleSearch={this.performSearch('cats')} loading={this.state.loading}/> }/>
+              <Route path="/dogs" render={() => (this.state.loading) ? <p>Loading...</p> : <Results data={this.state.photos} handleSearch={this.performSearch('dogs')} loading={this.state.loading}/> }/>
+              <Route path="/computers" render={() => (this.state.loading) ? <p>Loading...</p> : <Results data={this.state.photos} handleSearch={this.performSearch('computers')} loading={this.state.loading}/> }/>
+            </Switch>
+          </div>
         </div>
-
-
-
-      </div>
+      </BrowserRouter>
     );
   }
 }
