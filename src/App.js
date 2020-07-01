@@ -24,13 +24,10 @@ export default class App extends Component {
   getRecent = () => {
     axios.get(`https://www.flickr.com/services/rest/?method=flickr.photos.getRecent&format=json&nojsoncallback=1&api_key=${apiKey}&per_page=24`)
       .then(response => {
-        // console.log("The following is the response from the server:")
-        // console.dir(response);
         this.setState({
           photos: response.data.photos,
           loading: false
         });
-        // console.log(this.state.photos.photo[0].id)
       })
       .catch(error => {
         console.log('Error fetching and parsing data', error);
@@ -55,17 +52,25 @@ export default class App extends Component {
       <BrowserRouter>
         <div className="container">
 
-          <SearchForm onSearch={this.performSearch}/>
+          <SearchForm onSearch={this.performSearch} history={this.props.history}/>
 
           <MainNav />
 
           <div className="photo-container">
             <h2>Results</h2>
             <Switch>
-              <Route exact path="/" render={() => (this.state.loading) ? <p>Loading...</p> : <Results data={this.state.photos} loading={this.state.loading}/>}/>
-              <Route path="/cats" render={() => (this.state.loading) ? <p>Loading...</p> : <Results data={this.state.photos} handleSearch={this.performSearch('cats')} loading={this.state.loading}/> }/>
-              <Route path="/dogs" render={() => (this.state.loading) ? <p>Loading...</p> : <Results data={this.state.photos} handleSearch={this.performSearch('dogs')} loading={this.state.loading}/> }/>
-              <Route path="/computers" render={() => (this.state.loading) ? <p>Loading...</p> : <Results data={this.state.photos} handleSearch={this.performSearch('computers')} loading={this.state.loading}/> }/>
+              {
+              // <Route exact path="/" render={() => (this.state.loading) ? <Loading /> : <Results data={this.state.photos} />}/>
+              // <Route path="/cats" render={() => (this.state.loading) ? <Loading /> : <Results data={this.state.photos} handleSearch={this.performSearch('cats')} /> }/>
+              // <Route path="/dogs" render={() => (this.state.loading) ? <Loading /> : <Results data={this.state.photos} handleSearch={this.performSearch('dogs')} /> }/>
+              // <Route path="/computers" render={() => (this.state.loading) ? <Loading /> : <Results data={this.state.photos} handleSearch={this.performSearch('computers')} /> }/>
+              // <Route path="/search" render={() => (this.state.loading) ? <Loading /> : <Results data={this.state.photos} /> }/>
+              }
+              <Route exact path="/" render={() => <Results data={this.state.photos} loading={this.state.loading}/>}/>
+              <Route path="/cats" render={() => <Results data={this.state.photos} handleSearch={this.performSearch('cats')} loading={this.state.loading}/> }/>
+              <Route path="/dogs" render={() => <Results data={this.state.photos} handleSearch={this.performSearch('dogs')} loading={this.state.loading}/> }/>
+              <Route path="/computers" render={() => <Results data={this.state.photos} handleSearch={this.performSearch('computers')} loading={this.state.loading}/> }/>
+              <Route path="/search" render={() => <Results data={this.state.photos} loading={this.state.loading}/> }/>
             </Switch>
           </div>
         </div>

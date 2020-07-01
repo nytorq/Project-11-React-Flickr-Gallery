@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 class NoResults extends Component {
   render () {
     return (
-        <span class="not-found">
+        <span className="not-found">
           <p>Your search did not return any results. Please try again.</p>
         </span>
     )
