@@ -1,7 +1,9 @@
+/*jshint esversion: 6 */
 import React, {Component} from 'react';
 import SearchForm from './Components/SearchForm';
 import MainNav from './Components/MainNav';
 import Results from './Components/Results';
+import PageNotFound from './Components/PageNotFound';
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import './App.css';
 import axios from 'axios';
@@ -59,18 +61,12 @@ export default class App extends Component {
           <div className="photo-container">
             <h2>Results</h2>
             <Switch>
-              {
-              // <Route exact path="/" render={() => (this.state.loading) ? <Loading /> : <Results data={this.state.photos} />}/>
-              // <Route path="/cats" render={() => (this.state.loading) ? <Loading /> : <Results data={this.state.photos} handleSearch={this.performSearch('cats')} /> }/>
-              // <Route path="/dogs" render={() => (this.state.loading) ? <Loading /> : <Results data={this.state.photos} handleSearch={this.performSearch('dogs')} /> }/>
-              // <Route path="/computers" render={() => (this.state.loading) ? <Loading /> : <Results data={this.state.photos} handleSearch={this.performSearch('computers')} /> }/>
-              // <Route path="/search" render={() => (this.state.loading) ? <Loading /> : <Results data={this.state.photos} /> }/>
-              }
               <Route exact path="/" render={() => <Results data={this.state.photos} loading={this.state.loading}/>}/>
               <Route path="/cats" render={() => <Results data={this.state.photos} handleSearch={this.performSearch('cats')} loading={this.state.loading}/> }/>
               <Route path="/dogs" render={() => <Results data={this.state.photos} handleSearch={this.performSearch('dogs')} loading={this.state.loading}/> }/>
               <Route path="/computers" render={() => <Results data={this.state.photos} handleSearch={this.performSearch('computers')} loading={this.state.loading}/> }/>
               <Route path="/search" render={() => <Results data={this.state.photos} loading={this.state.loading}/> }/>
+              <Route component={PageNotFound} />
             </Switch>
           </div>
         </div>
