@@ -19,10 +19,12 @@ export default class App extends Component {
     };
   }
 
+  // Call the getRecent API
   componentDidMount() {
     this.getRecent();
   }
 
+  // This API call gets the most recent and popular photos from Flickr
   getRecent = () => {
     axios.get(`https://www.flickr.com/services/rest/?method=flickr.photos.getRecent&format=json&nojsoncallback=1&api_key=${apiKey}&per_page=24`)
       .then(response => {
@@ -36,6 +38,7 @@ export default class App extends Component {
       });
   }
 
+  // This API queries Flickr based upon the user's submitted string
   performSearch = (query) => {
     axios.get(`https://www.flickr.com/services/rest/?method=flickr.photos.search&tags=${query}&format=json&nojsoncallback=1&api_key=${apiKey}&per_page=24`)
       .then(response => {
@@ -65,6 +68,9 @@ export default class App extends Component {
               <Route path="/cats" render={() => <Results data={this.state.photos} handleSearch={this.performSearch('cats')} loading={this.state.loading}/> }/>
               <Route path="/dogs" render={() => <Results data={this.state.photos} handleSearch={this.performSearch('dogs')} loading={this.state.loading}/> }/>
               <Route path="/computers" render={() => <Results data={this.state.photos} handleSearch={this.performSearch('computers')} loading={this.state.loading}/> }/>
+              {
+                // The following appends the word search to differentiate searches from the home and the three button choices
+              }
               <Route path="/search" render={() => <Results data={this.state.photos} loading={this.state.loading}/> }/>
               <Route component={PageNotFound} />
             </Switch>
